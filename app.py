@@ -81,7 +81,16 @@ def delete_transaction(transaction_id):
     # Redirect to the transactions list page after deleting the transaction
     return redirect(url_for("get_transactions"))
 
-
+@app.route("/search", methods=["POST","GET"])
+def search_transactions():
+    if request.method == 'POST':
+        min = 200
+        max = 500
+        filtered_transactions = filter(lambda t: t.amount >= min and t.amount <=max , transactions)
+        return render_template("transactions.html", transactions=filtered_transactions)
+    else: 
+        return render_template("search.html")
+        
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
